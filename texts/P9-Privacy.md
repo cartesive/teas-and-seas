@@ -1,6 +1,6 @@
 # P9
 
-## P9 Privacy (Level none)
+## P9 Privacy (Level nine)
 
 ### Summary: We collect your data, and we intend to use it, and maybe to sell it
 
