@@ -3,13 +3,15 @@ A set of Terms and Conditions (T's and C's) that are easy to use, and fair for y
 
 ## What is it, and why?
 
-*Terms and Conditions are a pain, and nobody reads them anyway.*
+**Terms and Conditions are a pain, and nobody reads them anyway.**
 
 It takes too long to read terms and conditions, and they are not well understood. This collection of universal, pre-written T's&C's are designed to be easy to assemble and easy to consume.
 
 Developers know their software licenses by shorthand acronyms, like MIT, GPL, BSD, etc. These are generally well understood because they are consitent across projects and their intent is known eve without re-reading the text.
 
-This project aims to do the same for 
+This project aims to do the same for Terms and Conditions.
+
+The project will be a success if a large set of people come to know that, say, "P2" level privacy refers to a site, service or software that collects data incidently -- and may use cookies -- but does not try to idenitfy you individually or combine data for re-use or sale to third parties. 
 
 ## How to use
 
