@@ -1,6 +1,6 @@
 ![](assets/logo.png)
 
-# Teas and Seas (BETA)
+# Teas and Seas (Beta)
 
 A set of Terms and Conditions (T's and C's) that are easy to use, and fair for your customers.
 
@@ -10,7 +10,7 @@ A set of Terms and Conditions (T's and C's) that are easy to use, and fair for y
 
 It takes too long to read terms and conditions, and they are not well understood. This collection of universal, pre-written T's&C's are designed to be easy to assemble and easy to consume.
 
-Developers know their software licenses by shorthand acronyms, like MIT, GPL, BSD, etc. These are generally well understood because they are consitent across projects and their intent is known eve without re-reading the text.
+Developers know their software licenses by shorthand acronyms, like MIT, GPL, BSD, etc. These are generally well understood because they are consitent across projects and their intent is known even without re-reading the text.
 
 This project aims to do the same for Terms and Conditions.
 
