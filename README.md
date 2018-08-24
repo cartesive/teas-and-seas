@@ -24,4 +24,4 @@ Just browse through the texts and use the ones you need.
 
 There are high-level, single-letter sections which are designed to be best for general understanding and use. These are simply a combination of all of the subsections at the same level.
 
-For instance, you could include Privacy collection level one (PC1), privacy discosure level one (PD1), etc. But if all your Privacy terms are at level one, just use P1.
+For instance, you could include Privacy collection level two ([PC2](texts/PC2-Privacy-collection-level-two.md)), privacy discosure level one (PD1), etc. But if all your Privacy terms are at level two, just use [P2](texts/P2-Privacy.md).
