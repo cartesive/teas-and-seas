@@ -1,6 +1,6 @@
-# PC1
+# P2
 
-## PC1 Privacy (Level one)
+## P2 Privacy (Level two)
 
 ### Summary: We collect your data in aggregate, and we don't indentify you personally or sell your data
 

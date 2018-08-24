@@ -1,6 +1,6 @@
 # PC1
 
-## PC1 Privacy (Level one)
+## P1 Privacy (Level one)
 
 ### Summary: We don't collect your data in any way, so we can't use it or share it
 
