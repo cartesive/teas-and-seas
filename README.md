@@ -1,4 +1,7 @@
-# teas-and-seas (BETA)
+![](assets/logo.png)
+
+# Teas and Seas (BETA)
+
 A set of Terms and Conditions (T's and C's) that are easy to use, and fair for your customers.
 
 ## What is it, and why?
