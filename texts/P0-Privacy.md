@@ -4,7 +4,7 @@ This section descibes privacy issues and how your data will be collected, used a
 
 ## Preamble
 
-The privacy section is diveded into a number of sections regarding our collection, use and sharing of your data. 
+The privacy section is divided into a number of sections regarding our collection, use and sharing of your data. 
 
 It is important to understand that regardless of the details of those committments, there are a number of universal assumptions that apply to the information collected.
 
