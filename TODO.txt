@@ -45,3 +45,7 @@
    - Create GitHub Discussions categories
    - Set up project website (GitHub Pages)
    - Write onboarding guides for different audiences
+
+## Other Ideas
+
+- **Metadata System**: Create JSON metadata files for each section (e.g., privacy_meta.json) that explain what each level (0-9) specifically means for that clause type
