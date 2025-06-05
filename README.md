@@ -43,16 +43,30 @@ Each clause includes:
 
 ## Available Clause Types
 
+### ✅ Complete (All levels 0-9 available)
+
 | Code | Type | Description | Example |
 |------|------|-------------|---------|
-| **P** | [Privacy](core/privacy/) | Data collection & sharing | [P0](core/privacy/P0.md), [P5](core/privacy/P5.md) |
-| **L** | [Liability](core/liability/) | Limitation of damages | [L0](core/liability/L0.md), [L5](core/liability/L5.md) |
-| **W** | [Warranty](core/warranty/) | Product guarantees | [W0](core/warranty/W0-Warrantee.md) |
-| **T** | [Termination](core/termination/) | Account/service ending | [T0](core/termination/T0-Termintation.md) |
-| **S** | [Severability](core/severability/) | Invalid clause handling | [S0](core/severability/S0-Severability.md) |
-| **AGE** | [Age Requirements](core/age-requirements/) | Age restrictions | [AGE0](core/age-requirements/AGE0.md) |
+| **P** | [Privacy](core/privacy/) | Data collection & sharing | [P0](core/privacy/P0.md), [P5](core/privacy/P5.md), [P9](core/privacy/P9.md) |
+| **L** | [Liability](core/liability/) | Limitation of damages | [L0](core/liability/L0.md), [L5](core/liability/L5.md), [L9](core/liability/L9.md) |
+| **W** | [Warranty](core/warranty/) | Product guarantees | [W0](core/warranty/W0.md), [W5](core/warranty/W5.md), [W9](core/warranty/W9.md) |
+| **T** | [Termination](core/termination/) | Account/service ending | [T0](core/termination/T0.md), [T5](core/termination/T5.md), [T9](core/termination/T9.md) |
+| **PAY** | [Payment](core/payment/) | Billing, refunds, pricing | [PAY0](core/payment/PAY0.md), [PAY5](core/payment/PAY5.md), [PAY9](core/payment/PAY9.md) |
+| **UC** | [User Content](core/user-content/) | Content ownership & rights | [UC0](core/user-content/UC0.md), [UC5](core/user-content/UC5.md), [UC9](core/user-content/UC9.md) |
+| **AU** | [Acceptable Use](core/acceptable-use/) | Usage restrictions | [AU0](core/acceptable-use/AU0.md), [AU5](core/acceptable-use/AU5.md), [AU9](core/acceptable-use/AU9.md) |
+| **D** | [Disputes](core/disputes/) | Conflict resolution | [D0](core/disputes/D0.md), [D5](core/disputes/D5.md), [D9](core/disputes/D9.md) |
+| **C** | [Cookies](core/cookies/) | Cookie & tracking policies | [C0](core/cookies/C0.md), [C5](core/cookies/C5.md), [C9](core/cookies/C9.md) |
 
-More types coming soon: Payment (PAY), User Content (UC), Intellectual Property (IP), Disputes (D), and [many others](STRUCTURE.md).
+### 🚧 In Progress
+
+| Code | Type | Description | Status |
+|------|------|-------------|--------|
+| **IP** | [Intellectual Property](core/intellectual-property/) | IP ownership & licensing | Levels 0, 5, 9 only |
+| **S** | [Severability](core/severability/) | Invalid clause handling | Level 0 only |
+| **AGE** | [Age Requirements](core/age-requirements/) | Age restrictions | Levels 0, 6 only |
+| **General** | [General](core/general/) | Misc. terms | Being restructured |
+
+More types coming soon. See our [complete structure plan](STRUCTURE.md).
 
 ## The Vision
 
@@ -87,3 +101,65 @@ A typical SaaS startup might use:
 - **T1** - Either party can terminate with 30 days notice
 
 Result: `P2•L5•W1•T1` - A balanced, fair set of terms that users can understand at a glance.
+
+## Detailed Example: Building Your T&C
+
+Let's say you're launching a photo sharing app. Here's how you'd build your Terms & Conditions:
+
+### Step 1: Identify Your Business Model
+You're a freemium photo sharing service with optional paid features. You want to be user-friendly but need some protections.
+
+### Step 2: Choose Your Levels
+
+**Privacy (P)** - You need analytics but respect user privacy:
+- ❌ P0 (no data collection) - Can't improve the service
+- ❌ P1 (minimal data) - Need more for features
+- ✅ **P2** - Perfect! Analytics without individual tracking
+- ❌ P5+ - Too invasive for your values
+
+**Liability (L)** - Standard protections without being extreme:
+- ❌ L0-L2 - Too much liability exposure
+- ✅ **L4** - Reasonable limits, fair to both sides
+- ❌ L7+ - Too aggressive, might scare users
+
+**Warranty (W)** - You're confident but realistic:
+- ❌ W0 - Can't guarantee perfection
+- ✅ **W2** - Good warranty with reasonable limits
+- ❌ W5+ - Too many disclaimers
+
+**Payment (PAY)** - Fair billing for premium users:
+- ✅ **PAY2** - Clear pricing, pro-rated refunds
+- ❌ PAY5+ - Too restrictive on refunds
+
+**User Content (UC)** - Users own their photos:
+- ✅ **UC1** - Users keep ownership, you get service license
+- ❌ UC5+ - You don't need broad content rights
+
+**Termination (T)** - Easy come, easy go:
+- ✅ **T2** - Users can leave anytime, you need cause
+- ❌ T5+ - Too restrictive on user freedom
+
+**Acceptable Use (AU)** - Prevent abuse, allow creativity:
+- ✅ **AU3** - Clear rules without micromanaging
+- ❌ AU0 - Need some content guidelines
+- ❌ AU7+ - Too restrictive for creative platform
+
+### Step 3: Your T&C Badge
+**`P2•L4•W2•PAY2•UC1•T2•AU3`**
+
+### Step 4: What This Means for Users
+When users see your badge, they instantly know:
+- 📊 Their data is used for analytics but not sold
+- ⚖️ Liability is limited but fair
+- ✅ The service comes with real guarantees
+- 💳 Billing is transparent with refunds
+- 📸 They own their photos completely
+- 🚪 They can leave anytime easily
+- 📝 Clear, reasonable usage rules
+
+### Compare with Competitors
+- **Big Social Network**: `P8•L9•W8•PAY7•UC6•T8•AU8` (Very restrictive)
+- **Open Source Alternative**: `P0•L0•W9•PAY0•UC0•T0•AU1` (Maximum freedom)
+- **Your Balanced Approach**: `P2•L4•W2•PAY2•UC1•T2•AU3` (Fair middle ground)
+
+Users can now make informed choices at a glance!
