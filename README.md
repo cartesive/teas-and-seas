@@ -56,12 +56,12 @@ Each clause includes:
 | **AU** | [Acceptable Use](core/acceptable-use/) | Usage restrictions | [AU0](core/acceptable-use/AU0.md), [AU5](core/acceptable-use/AU5.md), [AU9](core/acceptable-use/AU9.md) |
 | **D** | [Disputes](core/disputes/) | Conflict resolution | [D0](core/disputes/D0.md), [D5](core/disputes/D5.md), [D9](core/disputes/D9.md) |
 | **C** | [Cookies](core/cookies/) | Cookie & tracking policies | [C0](core/cookies/C0.md), [C5](core/cookies/C5.md), [C9](core/cookies/C9.md) |
+| **IP** | [Intellectual Property](core/intellectual-property/) | IP ownership & licensing | [IP0](core/intellectual-property/IP0.md), [IP5](core/intellectual-property/IP5.md), [IP9](core/intellectual-property/IP9.md) |
 
 ### 🚧 In Progress
 
 | Code | Type | Description | Status |
 |------|------|-------------|--------|
-| **IP** | [Intellectual Property](core/intellectual-property/) | IP ownership & licensing | Levels 0, 5, 9 only |
 | **S** | [Severability](core/severability/) | Invalid clause handling | Level 0 only |
 | **AGE** | [Age Requirements](core/age-requirements/) | Age restrictions | Levels 0, 6 only |
 | **General** | [General](core/general/) | Misc. terms | Being restructured |

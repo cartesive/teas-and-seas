@@ -3,18 +3,19 @@
 ## Intellectual Property (Level 9)
 
 ### 📌 Summary
-Extreme IP claims including rights to user ideas, aggressive enforcement, broad restrictions.
+Maximum IP protection with comprehensive rights claims, strict enforcement, and extensive restrictions.
 
 ### 👤 What This Means For You
-We claim rights to everything - not just our service but potentially your ideas, feedback, and anything you create using our tools. You can't mention us without permission, can't interoperate with our service, and we might claim you're infringing our patents just for using common features. We aggressively enforce these rights.
+The provider claims extensive intellectual property rights including the service, user submissions, feedback, and derivative works. Use is restricted to the narrow license granted, with no rights to mention, link, reverse engineer, or create interoperable products. Patent claims may cover broad method and process concepts. All IP rights are actively enforced with significant penalties for violations.
 
 ### 📜 Legal Text
 Provider asserts maximum IP rights including future patents on any concept within service domain. User grants rights to all ideas, feedback, and suggestions. Any use beyond narrow license is infringement. No right to mention, link, reverse engineer, compete, or interoperate. Provider claims trade dress, look-and-feel, and method patents broadly. User indemnifies against all IP claims. Liquidated damages of $100,000 per violation.
 
 ### 🔍 Examples
-- Patent trolls
-- Companies known for IP lawsuits
-- Services with extreme IP positions
+- High-value proprietary technology companies
+- Services with critical trade secrets or algorithms
+- Platforms with extensive patent portfolios
+- Industries with high IP litigation risk
 
 ---
 *Version History*
