@@ -449,7 +449,7 @@
             }
 
             const prefix = CLAUSE_MAPPING[clauseType];
-            const url = `https://cdn.jsdelivr.net/gh/cartesive/teas-and-seas@master/core/${clauseType}/${prefix}${level}.md`;
+            const url = `https://api.github.com/repos/cartesive/teas-and-seas/contents/core/${clauseType}/${prefix}${level}.md`;
             
             try {
                 console.log(`Fetching: ${url}`);
@@ -457,7 +457,8 @@
                 if (!response.ok) {
                     throw new Error(`HTTP ${response.status}: ${response.statusText}`);
                 }
-                const text = await response.text();
+                const data = await response.json();
+                const text = atob(data.content); // GitHub API returns base64 encoded content
                 console.log(`Fetched ${clauseType} ${level}, length: ${text.length}`);
                 
                 // Use the entire file content - it's all useful!
