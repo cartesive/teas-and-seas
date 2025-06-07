@@ -460,12 +460,9 @@
                 const text = await response.text();
                 console.log(`Fetched ${clauseType} ${level}, length: ${text.length}`);
                 
-                // Extract legal text section
-                const legalTextMatch = text.match(/### 📜 Legal Text\s*\n(.*?)(?=\n### |\n---|\nVersion History|$)/s);
-                const legalText = legalTextMatch ? legalTextMatch[1].trim() : `[Could not parse legal text from ${clauseType} level ${level}]`;
-                
-                documentCache[key] = legalText;
-                return legalText;
+                // Use the entire file content - it's all useful!
+                documentCache[key] = text.trim();
+                return text.trim();
             } catch (error) {
                 console.error(`Error fetching ${clauseType} level ${level}:`, error);
                 return `[Error loading ${clauseType.replace('-', ' ')} clause level ${level}: ${error.message}]`;
