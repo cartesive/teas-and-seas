@@ -2,6 +2,8 @@
 
 # Teas and Seas (Beta)
 
+**🎉 COMPLETE: All 12 major clause types now have full 0-9 level coverage with 120 standardized clauses ready to use!**
+
 A set of Terms and Conditions (T's and C's) that are easy to use, and fair for your customers.
 
 ## What is it, and why?
