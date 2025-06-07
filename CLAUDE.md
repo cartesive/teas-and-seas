@@ -46,6 +46,19 @@ Each clause file must include:
 - Include practical examples
 - Follow existing file format exactly
 
+### Tone and Neutrality Requirements
+- **CRITICAL**: Maintain strict neutrality when describing clause levels
+- Never characterize businesses as "predatory," "exploitative," or using "traps"
+- Recognize that stricter terms often reflect legitimate business needs:
+  - Higher risk exposure or regulatory requirements
+  - International compliance obligations
+  - Fraud prevention and security needs
+  - High operational costs or investment protection
+- Present the natural tension between user freedoms and business controls as a balance, not a negative
+- Use neutral, factual language that explains both user impact AND business rationale
+- Avoid inflammatory terms like "aggressive," "unfair," or "hostile"
+- Examples should reference legitimate business contexts, not assume malicious intent
+
 ### Current Priorities (from TODO.txt)
 - Complete intermediate levels (1-4, 6-8) for existing clause types
 - Age requirement extensions for various jurisdictions
