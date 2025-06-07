@@ -457,8 +457,8 @@
                 const text = await response.text();
                 
                 // Extract legal text section
-                const legalTextMatch = text.match(/### 📜 Legal Text\n(.*?)(?=\n### |$)/s);
-                const legalText = legalTextMatch ? legalTextMatch[1].trim() : text;
+                const legalTextMatch = text.match(/### 📜 Legal Text\s*\n(.*?)(?=\n### |\n---|\nVersion History|$)/s);
+                const legalText = legalTextMatch ? legalTextMatch[1].trim() : `[Could not parse legal text from ${clauseType} level ${level}]`;
                 
                 documentCache[key] = legalText;
                 return legalText;
