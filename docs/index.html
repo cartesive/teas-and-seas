@@ -3,10 +3,582 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Teas and Seas - Legal Commons</title>
+    <title>Teas and Seas - Interactive T&C Builder</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f7fa;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .header h1 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+        
+        .header p {
+            color: #7f8c8d;
+            font-size: 18px;
+        }
+        
+        .builder-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+        
+        .clause-builder {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .clause-item {
+            margin-bottom: 20px;
+            padding: 15px;
+            border: 1px solid #e1e8ed;
+            border-radius: 8px;
+            background: #fafbfc;
+        }
+        
+        .clause-item label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #2c3e50;
+        }
+        
+        .level-selector {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+        
+        .preview-section {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .badge-section {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+        
+        .tc-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-family: 'Courier New', monospace;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        
+        .tc-badge:hover {
+            transform: scale(1.05);
+        }
+        
+        .preview-content {
+            max-height: 400px;
+            overflow-y: auto;
+            border: 1px solid #e1e8ed;
+            padding: 20px;
+            border-radius: 5px;
+            background: #fafbfc;
+            white-space: pre-wrap;
+            font-family: Georgia, serif;
+            line-height: 1.7;
+        }
+        
+        .loading {
+            text-align: center;
+            color: #7f8c8d;
+            font-style: italic;
+        }
+        
+        .actions {
+            margin-top: 15px;
+            text-align: center;
+        }
+        
+        .btn {
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 0 5px;
+            font-size: 14px;
+            transition: background 0.3s;
+        }
+        
+        .btn:hover {
+            background: #2980b9;
+        }
+        
+        .btn-secondary {
+            background: #95a5a6;
+        }
+        
+        .btn-secondary:hover {
+            background: #7f8c8d;
+        }
+        
+        .expand-section {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+        
+        .badge-input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-family: 'Courier New', monospace;
+            margin-bottom: 15px;
+        }
+        
+        @media (max-width: 768px) {
+            .builder-section {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
 </head>
 <body>
-    <h1>Hello World</h1>
-    <p>Welcome to Teas and Seas - Legal Commons for standardized Terms & Conditions clauses.</p>
+    <div class="container">
+        <div class="header">
+            <h1>🫖 Teas and Seas</h1>
+            <p>Interactive Terms & Conditions Builder</p>
+        </div>
+
+        <div class="badge-section">
+            <h3>📋 T&C Badge Generator</h3>
+            <p style="margin-bottom: 15px;">Create a compact badge representing your T&C configuration:</p>
+            <div id="badge-display">
+                <div class="tc-badge" id="generated-badge">P0-L0-W0-T0-AU0-UC0-PAY0-IP0-D0-C0-AGE0-S0</div>
+            </div>
+            <div class="actions">
+                <button class="btn" onclick="copyBadge()">📋 Copy Badge</button>
+                <button class="btn btn-secondary" onclick="generateFullDocument()">📄 Generate Full T&C</button>
+            </div>
+        </div>
+
+        <div class="expand-section">
+            <h3>🔍 Badge Expander</h3>
+            <p style="margin-bottom: 15px;">Paste a T&C badge to expand it into the full document:</p>
+            <input type="text" class="badge-input" id="badge-input" placeholder="P3-L7-W2-T5-AU4-UC6-PAY8-IP5-D3-C2-AGE1-S4" />
+            <div class="actions">
+                <button class="btn" onclick="expandBadge()">🔍 Expand Badge</button>
+            </div>
+        </div>
+
+        <div class="builder-section">
+            <div class="clause-builder">
+                <h3>🎛️ Clause Configuration</h3>
+                <p style="margin-bottom: 20px;">Select the protection level (0-9) for each clause type:</p>
+                
+                <div class="clause-item">
+                    <label for="privacy">Privacy (P)</label>
+                    <select class="level-selector" id="privacy" onchange="updateBadge()">
+                        <option value="0">Level 0 - No data collection</option>
+                        <option value="1">Level 1 - Minimal collection</option>
+                        <option value="2">Level 2 - Basic analytics</option>
+                        <option value="3">Level 3 - Standard collection</option>
+                        <option value="4">Level 4 - Enhanced tracking</option>
+                        <option value="5">Level 5 - Comprehensive data</option>
+                        <option value="6">Level 6 - Extended profiling</option>
+                        <option value="7">Level 7 - Advanced analytics</option>
+                        <option value="8">Level 8 - Full spectrum data</option>
+                        <option value="9">Level 9 - Maximum collection</option>
+                    </select>
+                </div>
+
+                <div class="clause-item">
+                    <label for="liability">Liability (L)</label>
+                    <select class="level-selector" id="liability" onchange="updateBadge()">
+                        <option value="0">Level 0 - Full liability</option>
+                        <option value="1">Level 1 - Limited exclusions</option>
+                        <option value="2">Level 2 - Basic limitations</option>
+                        <option value="3">Level 3 - Standard limits</option>
+                        <option value="4">Level 4 - Moderate protection</option>
+                        <option value="5">Level 5 - Balanced approach</option>
+                        <option value="6">Level 6 - Strong limitations</option>
+                        <option value="7">Level 7 - Comprehensive exclusions</option>
+                        <option value="8">Level 8 - Maximum protection</option>
+                        <option value="9">Level 9 - Complete exclusion</option>
+                    </select>
+                </div>
+
+                <div class="clause-item">
+                    <label for="warranty">Warranty (W)</label>
+                    <select class="level-selector" id="warranty" onchange="updateBadge()">
+                        <option value="0">Level 0 - Full warranty</option>
+                        <option value="1">Level 1 - Limited warranty</option>
+                        <option value="2">Level 2 - Basic coverage</option>
+                        <option value="3">Level 3 - Standard terms</option>
+                        <option value="4">Level 4 - Moderate disclaimers</option>
+                        <option value="5">Level 5 - Balanced approach</option>
+                        <option value="6">Level 6 - Strong disclaimers</option>
+                        <option value="7">Level 7 - Extensive exclusions</option>
+                        <option value="8">Level 8 - Minimal warranty</option>
+                        <option value="9">Level 9 - No warranty</option>
+                    </select>
+                </div>
+
+                <div class="clause-item">
+                    <label for="termination">Termination (T)</label>
+                    <select class="level-selector" id="termination" onchange="updateBadge()">
+                        <option value="0">Level 0 - User-friendly terms</option>
+                        <option value="1">Level 1 - Basic termination</option>
+                        <option value="2">Level 2 - Standard notice</option>
+                        <option value="3">Level 3 - Moderate terms</option>
+                        <option value="4">Level 4 - Business protection</option>
+                        <option value="5">Level 5 - Balanced approach</option>
+                        <option value="6">Level 6 - Strict terms</option>
+                        <option value="7">Level 7 - Strong protection</option>
+                        <option value="8">Level 8 - Immediate termination</option>
+                        <option value="9">Level 9 - Maximum control</option>
+                    </select>
+                </div>
+
+                <div class="clause-item">
+                    <label for="acceptable-use">Acceptable Use (AU)</label>
+                    <select class="level-selector" id="acceptable-use" onchange="updateBadge()">
+                        <option value="0">Level 0 - Minimal restrictions</option>
+                        <option value="1">Level 1 - Basic guidelines</option>
+                        <option value="2">Level 2 - Standard rules</option>
+                        <option value="3">Level 3 - Common restrictions</option>
+                        <option value="4">Level 4 - Moderate policies</option>
+                        <option value="5">Level 5 - Balanced rules</option>
+                        <option value="6">Level 6 - Strict guidelines</option>
+                        <option value="7">Level 7 - Comprehensive rules</option>
+                        <option value="8">Level 8 - Extensive restrictions</option>
+                        <option value="9">Level 9 - Maximum control</option>
+                    </select>
+                </div>
+
+                <div class="clause-item">
+                    <label for="user-content">User Content (UC)</label>
+                    <select class="level-selector" id="user-content" onchange="updateBadge()">
+                        <option value="0">Level 0 - User retains rights</option>
+                        <option value="1">Level 1 - Limited license</option>
+                        <option value="2">Level 2 - Basic permissions</option>
+                        <option value="3">Level 3 - Standard license</option>
+                        <option value="4">Level 4 - Moderate rights</option>
+                        <option value="5">Level 5 - Balanced approach</option>
+                        <option value="6">Level 6 - Broad license</option>
+                        <option value="7">Level 7 - Extensive rights</option>
+                        <option value="8">Level 8 - Comprehensive license</option>
+                        <option value="9">Level 9 - Full rights transfer</option>
+                    </select>
+                </div>
+
+                <div class="clause-item">
+                    <label for="payment">Payment (PAY)</label>
+                    <select class="level-selector" id="payment" onchange="updateBadge()">
+                        <option value="0">Level 0 - User-friendly terms</option>
+                        <option value="1">Level 1 - Basic payment terms</option>
+                        <option value="2">Level 2 - Standard billing</option>
+                        <option value="3">Level 3 - Common practices</option>
+                        <option value="4">Level 4 - Moderate terms</option>
+                        <option value="5">Level 5 - Balanced approach</option>
+                        <option value="6">Level 6 - Strict billing</option>
+                        <option value="7">Level 7 - Strong terms</option>
+                        <option value="8">Level 8 - Comprehensive rules</option>
+                        <option value="9">Level 9 - Maximum protection</option>
+                    </select>
+                </div>
+
+                <div class="clause-item">
+                    <label for="intellectual-property">Intellectual Property (IP)</label>
+                    <select class="level-selector" id="intellectual-property" onchange="updateBadge()">
+                        <option value="0">Level 0 - Minimal claims</option>
+                        <option value="1">Level 1 - Basic protection</option>
+                        <option value="2">Level 2 - Standard terms</option>
+                        <option value="3">Level 3 - Common protection</option>
+                        <option value="4">Level 4 - Moderate claims</option>
+                        <option value="5">Level 5 - Balanced approach</option>
+                        <option value="6">Level 6 - Strong protection</option>
+                        <option value="7">Level 7 - Comprehensive rights</option>
+                        <option value="8">Level 8 - Extensive claims</option>
+                        <option value="9">Level 9 - Maximum protection</option>
+                    </select>
+                </div>
+
+                <div class="clause-item">
+                    <label for="disputes">Disputes (D)</label>
+                    <select class="level-selector" id="disputes" onchange="updateBadge()">
+                        <option value="0">Level 0 - User choice</option>
+                        <option value="1">Level 1 - Basic resolution</option>
+                        <option value="2">Level 2 - Standard process</option>
+                        <option value="3">Level 3 - Common terms</option>
+                        <option value="4">Level 4 - Moderate requirements</option>
+                        <option value="5">Level 5 - Balanced approach</option>
+                        <option value="6">Level 6 - Strict process</option>
+                        <option value="7">Level 7 - Mandatory arbitration</option>
+                        <option value="8">Level 8 - Limited options</option>
+                        <option value="9">Level 9 - Company jurisdiction</option>
+                    </select>
+                </div>
+
+                <div class="clause-item">
+                    <label for="cookies">Cookies (C)</label>
+                    <select class="level-selector" id="cookies" onchange="updateBadge()">
+                        <option value="0">Level 0 - No cookies</option>
+                        <option value="1">Level 1 - Essential only</option>
+                        <option value="2">Level 2 - Basic functionality</option>
+                        <option value="3">Level 3 - Standard use</option>
+                        <option value="4">Level 4 - Analytics included</option>
+                        <option value="5">Level 5 - Balanced approach</option>
+                        <option value="6">Level 6 - Marketing cookies</option>
+                        <option value="7">Level 7 - Extensive tracking</option>
+                        <option value="8">Level 8 - Comprehensive data</option>
+                        <option value="9">Level 9 - All cookie types</option>
+                    </select>
+                </div>
+
+                <div class="clause-item">
+                    <label for="age-requirements">Age Requirements (AGE)</label>
+                    <select class="level-selector" id="age-requirements" onchange="updateBadge()">
+                        <option value="0">Level 0 - No restrictions</option>
+                        <option value="1">Level 1 - Basic verification</option>
+                        <option value="2">Level 2 - Standard compliance</option>
+                        <option value="3">Level 3 - COPPA compliance</option>
+                        <option value="4">Level 4 - Enhanced protection</option>
+                        <option value="5">Level 5 - Balanced approach</option>
+                        <option value="6">Level 6 - Strict verification</option>
+                        <option value="7">Level 7 - Extended requirements</option>
+                        <option value="8">Level 8 - Comprehensive checks</option>
+                        <option value="9">Level 9 - Maximum protection</option>
+                    </select>
+                </div>
+
+                <div class="clause-item">
+                    <label for="severability">Severability (S)</label>
+                    <select class="level-selector" id="severability" onchange="updateBadge()">
+                        <option value="0">Level 0 - Basic severability</option>
+                        <option value="1">Level 1 - Standard terms</option>
+                        <option value="2">Level 2 - Enhanced protection</option>
+                        <option value="3">Level 3 - Comprehensive clause</option>
+                        <option value="4">Level 4 - Detailed provisions</option>
+                        <option value="5">Level 5 - Balanced approach</option>
+                        <option value="6">Level 6 - Strong protection</option>
+                        <option value="7">Level 7 - Extensive coverage</option>
+                        <option value="8">Level 8 - Maximum protection</option>
+                        <option value="9">Level 9 - Complete severability</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="preview-section">
+                <h3>📄 Live Preview</h3>
+                <div class="preview-content" id="preview-content">
+                    <div class="loading">Select clause levels to generate your Terms & Conditions...</div>
+                </div>
+                <div class="actions">
+                    <button class="btn" onclick="copyDocument()">📋 Copy Document</button>
+                    <button class="btn btn-secondary" onclick="downloadDocument()">💾 Download</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const GITHUB_RAW_BASE = 'https://raw.githubusercontent.com/cartesive/teas-and-seas/master/core';
+        
+        const CLAUSE_MAPPING = {
+            'privacy': 'privacy/P',
+            'liability': 'liability/L', 
+            'warranty': 'warranty/W',
+            'termination': 'termination/T',
+            'acceptable-use': 'acceptable-use/AU',
+            'user-content': 'user-content/UC',
+            'payment': 'payment/PAY',
+            'intellectual-property': 'intellectual-property/IP',
+            'disputes': 'disputes/D',
+            'cookies': 'cookies/C',
+            'age-requirements': 'age-requirements/AGE',
+            'severability': 'severability/S'
+        };
+
+        let documentCache = {};
+        let currentDocument = '';
+
+        async function fetchClause(clauseType, level) {
+            const key = `${clauseType}-${level}`;
+            if (documentCache[key]) {
+                return documentCache[key];
+            }
+
+            const prefix = CLAUSE_MAPPING[clauseType];
+            const url = `${GITHUB_RAW_BASE}/${clauseType}/${prefix}${level}.md`;
+            
+            try {
+                const response = await fetch(url);
+                if (!response.ok) throw new Error(`Failed to fetch ${url}`);
+                const text = await response.text();
+                
+                // Extract legal text section
+                const legalTextMatch = text.match(/### 📜 Legal Text\n(.*?)(?=\n### |$)/s);
+                const legalText = legalTextMatch ? legalTextMatch[1].trim() : text;
+                
+                documentCache[key] = legalText;
+                return legalText;
+            } catch (error) {
+                console.error(`Error fetching ${clauseType} level ${level}:`, error);
+                return `[Error loading ${clauseType.replace('-', ' ')} clause level ${level}]`;
+            }
+        }
+
+        function updateBadge() {
+            const levels = {};
+            Object.keys(CLAUSE_MAPPING).forEach(clauseType => {
+                const element = document.getElementById(clauseType);
+                levels[clauseType] = element.value;
+            });
+
+            const badgeText = Object.keys(CLAUSE_MAPPING).map(clauseType => {
+                const prefix = CLAUSE_MAPPING[clauseType].split('/')[1];
+                return `${prefix}${levels[clauseType]}`;
+            }).join('-');
+
+            document.getElementById('generated-badge').textContent = badgeText;
+            generatePreview();
+        }
+
+        async function generatePreview() {
+            const previewElement = document.getElementById('preview-content');
+            previewElement.innerHTML = '<div class="loading">Generating document...</div>';
+
+            const clauses = [];
+            
+            for (const clauseType of Object.keys(CLAUSE_MAPPING)) {
+                const level = document.getElementById(clauseType).value;
+                const clauseText = await fetchClause(clauseType, level);
+                const sectionTitle = clauseType.replace('-', ' ').replace(/\b\w/g, l => l.toUpperCase());
+                clauses.push(`## ${sectionTitle}\n\n${clauseText}`);
+            }
+
+            currentDocument = `# Terms & Conditions\n\n${clauses.join('\n\n---\n\n')}`;
+            previewElement.textContent = currentDocument;
+        }
+
+        async function generateFullDocument() {
+            await generatePreview();
+        }
+
+        function copyBadge() {
+            const badge = document.getElementById('generated-badge').textContent;
+            navigator.clipboard.writeText(badge).then(() => {
+                alert('Badge copied to clipboard!');
+            });
+        }
+
+        function copyDocument() {
+            if (currentDocument) {
+                navigator.clipboard.writeText(currentDocument).then(() => {
+                    alert('Document copied to clipboard!');
+                });
+            }
+        }
+
+        function downloadDocument() {
+            if (currentDocument) {
+                const blob = new Blob([currentDocument], { type: 'text/plain' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'terms-and-conditions.txt';
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+            }
+        }
+
+        async function expandBadge() {
+            const badgeInput = document.getElementById('badge-input').value.trim();
+            if (!badgeInput) {
+                alert('Please enter a badge to expand');
+                return;
+            }
+
+            try {
+                const parts = badgeInput.split('-');
+                const prefixMap = {
+                    'P': 'privacy',
+                    'L': 'liability', 
+                    'W': 'warranty',
+                    'T': 'termination',
+                    'AU': 'acceptable-use',
+                    'UC': 'user-content',
+                    'PAY': 'payment',
+                    'IP': 'intellectual-property',
+                    'D': 'disputes',
+                    'C': 'cookies',
+                    'AGE': 'age-requirements',
+                    'S': 'severability'
+                };
+
+                // Parse badge and set selectors
+                parts.forEach(part => {
+                    const match = part.match(/^([A-Z]+)(\d)$/);
+                    if (match) {
+                        const [, prefix, level] = match;
+                        const clauseType = prefixMap[prefix];
+                        if (clauseType) {
+                            document.getElementById(clauseType).value = level;
+                        }
+                    }
+                });
+
+                updateBadge();
+                alert('Badge expanded successfully!');
+            } catch (error) {
+                alert('Invalid badge format. Please use format like: P3-L7-W2-T5-AU4-UC6-PAY8-IP5-D3-C2-AGE1-S4');
+            }
+        }
+
+        // Initialize
+        updateBadge();
+    </script>
 </body>
 </html>
