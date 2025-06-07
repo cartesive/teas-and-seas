@@ -449,14 +449,16 @@
             }
 
             const prefix = CLAUSE_MAPPING[clauseType];
-            const rawUrl = `https://raw.githubusercontent.com/cartesive/teas-and-seas/master/core/${clauseType}/${prefix}${level}.md`;
-            const url = `https://api.allorigins.win/get?url=${encodeURIComponent(rawUrl)}`;
+            const url = `https://cdn.jsdelivr.net/gh/cartesive/teas-and-seas@master/core/${clauseType}/${prefix}${level}.md`;
             
             try {
+                console.log(`Fetching: ${url}`);
                 const response = await fetch(url);
-                if (!response.ok) throw new Error(`Failed to fetch ${url}`);
-                const data = await response.json();
-                const text = data.contents;
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+                const text = await response.text();
+                console.log(`Fetched ${clauseType} ${level}, length: ${text.length}`);
                 
                 // Extract legal text section
                 const legalTextMatch = text.match(/### 📜 Legal Text\s*\n(.*?)(?=\n### |\n---|\nVersion History|$)/s);
@@ -466,7 +468,7 @@
                 return legalText;
             } catch (error) {
                 console.error(`Error fetching ${clauseType} level ${level}:`, error);
-                return `[Error loading ${clauseType.replace('-', ' ')} clause level ${level}]`;
+                return `[Error loading ${clauseType.replace('-', ' ')} clause level ${level}: ${error.message}]`;
             }
         }
 
