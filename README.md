@@ -97,13 +97,13 @@ This is a community project - a "Legal Commons" for the benefit of all. We need:
 - 🌍 Jurisdiction-specific adaptations
 - 💡 Feedback on what works and what doesn't
 
-See our [contribution guidelines](docs/CONTRIBUTING.md) for detailed information on how to help.
+See our [contribution guidelines](documentation/CONTRIBUTING.md) for detailed information on how to help.
 
 ## The Legal Commons Movement
 
 Teas & Seas is part of a larger movement to make legal terms accessible to everyone. Just as Open Source transformed software development, we believe Legal Commons can transform how legal documents are created and understood.
 
-Learn more about [the Legal Commons philosophy](docs/LEGAL_COMMONS.md) and why lawyers, developers, and users should care about standardized, clear legal terms.
+Learn more about [the Legal Commons philosophy](documentation/LEGAL_COMMONS.md) and why lawyers, developers, and users should care about standardized, clear legal terms.
 
 ## Quick Start Example
 
