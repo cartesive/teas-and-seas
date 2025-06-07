@@ -59,12 +59,8 @@ Each clause file must include:
 - Avoid inflammatory terms like "aggressive," "unfair," or "hostile"
 - Examples should reference legitimate business contexts, not assume malicious intent
 
-### Current Priorities (from TODO.txt)
-- Complete intermediate levels (1-4, 6-8) for existing clause types
-- Age requirement extensions for various jurisdictions
-- Build clause builder tool
-- Create badge generator
-- Develop validation tools
+### Current Priorities
+- See `TODO.txt` for up-to-date priorities and tasks
 
 ### Contributing
 - See `/docs/CONTRIBUTING.md` for detailed guidelines
