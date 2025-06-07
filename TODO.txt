@@ -1,3 +1,12 @@
+## Critical Updates Needed
+
+1. **Fix Tone and Neutrality Issues**
+   - Review all existing clauses (especially PAY7-PAY9, L7-L9, etc.) for inflammatory language
+   - Remove terms like "predatory," "exploitation," "aggressive," "traps"
+   - Add business context explaining why stricter terms might be necessary
+   - Ensure examples reference legitimate business needs, not assume malicious intent
+   - Maintain neutral, factual tone throughout all clause levels
+
 ## Implementation Plan
 
 1. **Restructure Repository Architecture**
