@@ -33,6 +33,17 @@ For example:
 
 ## How to use
 
+### 🚀 Interactive T&C Builder
+**[Try the Interactive Builder →](https://cartesive.github.io/teas-and-seas/)**
+
+Use our web-based tool to:
+- Select clause levels with intuitive controls
+- See live preview of your complete Terms & Conditions
+- Generate compact T&C badges (like `P2•L5•W0•T1`)
+- Export or copy your finished document
+- Expand badges from others back into full documents
+
+### Manual Assembly
 1. **Pick your levels**: Choose what level (0-9) you want for each clause type
 2. **Combine clauses**: Use individual clauses like [P2](core/privacy/P2.md) + [L5](core/liability/L5.md) + [W0](core/warranty/W0.md)
 3. **Display clearly**: Show your T&C levels prominently (e.g., "P2•L5•W0•T1")
