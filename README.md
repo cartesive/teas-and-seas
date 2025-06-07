@@ -2,6 +2,8 @@
 
 # Teas and Seas (Beta)
 
+**🎉 COMPLETE: All 12 major clause types now have full 0-9 level coverage with 120 standardized clauses ready to use!**
+
 A set of Terms and Conditions (T's and C's) that are easy to use, and fair for your customers.
 
 ## What is it, and why?
@@ -57,13 +59,13 @@ Each clause includes:
 | **D** | [Disputes](core/disputes/) | Conflict resolution | [D0](core/disputes/D0.md), [D5](core/disputes/D5.md), [D9](core/disputes/D9.md) |
 | **C** | [Cookies](core/cookies/) | Cookie & tracking policies | [C0](core/cookies/C0.md), [C5](core/cookies/C5.md), [C9](core/cookies/C9.md) |
 | **IP** | [Intellectual Property](core/intellectual-property/) | IP ownership & licensing | [IP0](core/intellectual-property/IP0.md), [IP5](core/intellectual-property/IP5.md), [IP9](core/intellectual-property/IP9.md) |
+| **S** | [Severability](core/severability/) | Invalid clause handling | [S0](core/severability/S0.md), [S5](core/severability/S5.md), [S9](core/severability/S9.md) |
+| **AGE** | [Age Requirements](core/age-requirements/) | Age restrictions | [AGE0](core/age-requirements/AGE0.md), [AGE5](core/age-requirements/AGE5.md), [AGE9](core/age-requirements/AGE9.md) |
 
 ### 🚧 In Progress
 
 | Code | Type | Description | Status |
 |------|------|-------------|--------|
-| **S** | [Severability](core/severability/) | Invalid clause handling | Level 0 only |
-| **AGE** | [Age Requirements](core/age-requirements/) | Age restrictions | Levels 0, 6 only |
 | **General** | [General](core/general/) | Misc. terms | Being restructured |
 
 More types coming soon. See our [complete structure plan](STRUCTURE.md).
