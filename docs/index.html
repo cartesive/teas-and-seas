@@ -799,18 +799,32 @@
         }
 
                 function updateBadge() {
+            updateDebug('updateBadge() called');
             const levels = {};
             Object.keys(CLAUSE_MAPPING).forEach(clauseType => {
-                const element = document.getElementById(clauseType);
-                levels[clauseType] = element.value;
+                if (clauseType === 'general') {
+                    // General section is always level 0 and not user-selectable
+                    levels[clauseType] = '0';
+                } else {
+                    const element = document.getElementById(clauseType);
+                    if (element) {
+                        levels[clauseType] = element.value;
+                    } else {
+                        updateDebug(`Warning: No element found for ${clauseType}`);
+                    }
+                }
             });
 
-            const badgeText = Object.keys(CLAUSE_MAPPING).map(clauseType => {
-                const prefix = CLAUSE_MAPPING[clauseType].split('/')[1];
-                return `${prefix}${levels[clauseType]}`;
-            }).join('-');
+            // Exclude general from badge (since it's always included)
+            const badgeText = Object.keys(CLAUSE_MAPPING)
+                .filter(clauseType => clauseType !== 'general')
+                .map(clauseType => {
+                    const prefix = CLAUSE_MAPPING[clauseType].split('/')[1];
+                    return `${prefix}${levels[clauseType]}`;
+                }).join('-');
 
             document.getElementById('generated-badge').textContent = badgeText;
+            updateDebug('Badge updated, calling generatePreview()');
             generatePreview();
         }
 
