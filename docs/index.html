@@ -573,11 +573,6 @@
         </section>
     </div>
 
-    <!-- Debug Info -->
-    <div id="debug-info" class="fixed bottom-20 left-4 bg-base-100 p-4 rounded shadow-lg max-w-sm text-xs" style="z-index: 1000;">
-        <h4 class="font-bold">Debug Info:</h4>
-        <div id="debug-content">Initializing...</div>
-    </div>
 
     <!-- Floating Action Button -->
     <div class="floating-action">
@@ -799,7 +794,6 @@
         }
 
                 function updateBadge() {
-            updateDebug('updateBadge() called');
             const levels = {};
             Object.keys(CLAUSE_MAPPING).forEach(clauseType => {
                 if (clauseType === 'general') {
@@ -810,7 +804,6 @@
                     if (element) {
                         levels[clauseType] = element.value;
                     } else {
-                        updateDebug(`Warning: No element found for ${clauseType}`);
                     }
                 }
             });
@@ -824,19 +817,11 @@
                 }).join('-');
 
             document.getElementById('generated-badge').textContent = badgeText;
-            updateDebug('Badge updated, calling generatePreview()');
             generatePreview();
         }
 
-        function updateDebug(message) {
-            const debugElement = document.getElementById('debug-content');
-            if (debugElement) {
-                debugElement.innerHTML += `<br>${new Date().toISOString().substr(11, 8)}: ${message}`;
-            }
-        }
 
         async function generatePreview() {
-            updateDebug('generatePreview() called');
             const previewElement = document.getElementById('preview-content');
             previewElement.innerHTML = '<div class="loading text-center text-base-content/60 py-8"><i class="fas fa-spinner fa-spin mr-2"></i>Generating document...</div>';
 
@@ -844,14 +829,11 @@
                 const clauses = [];
                 
                 // Debug: Check if general section exists
-                updateDebug(`General in CLAUSE_DATA: ${'general' in CLAUSE_DATA}`);
                 console.log('Checking for general section in CLAUSE_DATA:', 'general' in CLAUSE_DATA);
                 console.log('General section data:', CLAUSE_DATA.general);
                 
                 // Add General section first (always level 0)
-                updateDebug('Fetching general text...');
                 const generalText = await fetchClause('general', '0');
-                updateDebug(`General text length: ${generalText.length}`);
                 console.log('General text fetched:', generalText.substring(0, 100) + '...');
                 clauses.push(`## About This Agreement\n\n${generalText}`);
                 
@@ -871,9 +853,7 @@
                 currentDocument = `# Terms & Conditions\n\n${clauses.join('\n\n---\n\n')}`;
                 
                 // Render markdown to HTML for beautiful display
-                updateDebug('Parsing markdown...');
                 const renderedHTML = marked.parse(currentDocument);
-                updateDebug('Setting preview content...');
                 previewElement.innerHTML = renderedHTML;
                 updateDebug('Preview complete!');
             } catch (error) {
