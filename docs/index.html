@@ -560,7 +560,7 @@
                         </div>
                     </div>
                     
-                    <div class="bg-base-200 p-6 rounded-xl max-h-96 overflow-y-auto">
+                    <div class="bg-base-200 p-6 rounded-xl max-h-[600px] overflow-y-auto">
                         <div class="preview-content prose prose-lg max-w-none prose-headings:text-base-content prose-p:text-base-content prose-strong:text-base-content prose-li:text-base-content" id="preview-content">
                             <div class="loading text-center text-base-content/60 py-8">
                                 <i class="fas fa-spinner fa-spin mr-2"></i>
@@ -603,6 +603,7 @@
         const GITHUB_RAW_BASE = 'https://api.allorigins.win/get?url=' + encodeURIComponent('https://raw.githubusercontent.com/cartesive/teas-and-seas/master/core');
         
         const CLAUSE_MAPPING = {
+            'general': 'general/G',
             'privacy': 'privacy/P',
             'liability': 'liability/L', 
             'warranty': 'warranty/W',
@@ -764,6 +765,9 @@
                         "7": "# S7 v1.0.0\n\n## Severability (Level 7)\n\n### \ud83d\udccc Summary\nExtreme severability - agreement survives with unilateral modification rights.\n\n### \ud83d\udc64 What This Means For You\nNot only do invalid parts get removed, but the provider can unilaterally modify other parts to maintain the agreement's overall effect. You're agreeing that the provider can rewrite sections as needed to keep the agreement enforceable across different jurisdictions and circumstances.\n\n### \ud83d\udcdc Legal Text\nAll provisions are independently severable. Provider may unilaterally modify any provision to ensure enforceability while maintaining substantial equivalence. Invalid provisions trigger automatic application of provider's standard fallback terms. User waives objection to reasonable modifications necessary for enforceability. Severability determinations are made on jurisdiction-by-jurisdiction basis.\n\n### \ud83d\udd0d Examples\n- Global platforms with jurisdiction variations\n- Services with complex regulatory requirements\n- High-risk operational environments\n\n---\n*Version History*\n- v1.0.0 - Initial version",
                         "8": "# S8 v1.0.0\n\n## Severability (Level 8)\n\n### \ud83d\udccc Summary\nNear-absolute severability - micro-severability with perpetual adaptation rights.\n\n### \ud83d\udc64 What This Means For You\nEvery word and phrase can be severed independently. The provider has ongoing rights to modify, replace, or restructure any part of the agreement to maintain enforceability. You're essentially agreeing to whatever version remains enforceable in your jurisdiction, even if substantially different from what you originally read.\n\n### \ud83d\udcdc Legal Text\nMaximum severability applies at word, phrase, sentence, and section levels. Provider reserves perpetual right to modify, replace, or restructure any portion to maintain enforceability. User agrees to be bound by any resulting enforceable configuration. Automated jurisdiction-detection may apply different terms. User waives notice of minor modifications for enforceability.\n\n### \ud83d\udd0d Examples\n- Platforms operating under sanctions\n- Services navigating hostile regulatory environments\n- Experimental legal structures\n\n---\n*Version History*\n- v1.0.0 - Initial version",
                         "9": "# S9 v1.0.0\n\n## Severability (Level 9)\n\n### \ud83d\udccc Summary\nUltimate severability - infinitely adaptable agreement with retroactive modifications.\n\n### \ud83d\udc64 What This Means For You\nThis represents maximum legal flexibility. Any part can be severed, modified, or replaced at any time, even retroactively. The agreement shape-shifts as needed to remain enforceable. You're bound by whatever configuration survives legal challenges, regardless of changes from the original.\n\n### \ud83d\udcdc Legal Text\nAbsolute severability at all granular levels with retroactive effect. Provider may modify any aspect preemptively or responsively to ensure enforceability. Agreement automatically conforms to most restrictive enforceable interpretation in each jurisdiction. User irrevocably consents to all modifications necessary for enforceability, including fundamental restructuring. Waives all notice rights.\n\n### \ud83d\udd0d Examples\n- Services facing existential legal threats\n- Platforms in legally uncertain domains\n- Maximum flexibility requirements\n\n---\n*Version History*\n- v1.0.0 - Initial version"
+            },
+            "general": {
+                        "0": "# G0 v1.0.0\n\n## General - About This Agreement\n\n### \ud83d\udccc Summary\nThis agreement defines the relationship between us (the service provider) and you (the user).\n\n### \ud83d\udc64 What This Means For You\nThis document contains the complete terms and conditions for using our service. By using our service, you agree to these terms. We've organized them using the Teas and Seas standardized format to make them easier to understand.\n\n### \ud83d\udcdc Legal Text\nThis Agreement (\"Agreement\") is entered into between the service provider (\"Provider\", \"we\", \"us\", or \"our\") and the user (\"User\", \"you\", or \"your\"). This Agreement governs your access to and use of our services, website, applications, and any related products or services (collectively, the \"Service\"). By accessing or using the Service, you acknowledge that you have read, understood, and agree to be bound by this Agreement. If you do not agree to these terms, you must not use the Service.\n\n### \ud83d\udd0d Examples\n- Standard terms introduction for any online service\n- Mobile app terms of service opening\n- SaaS platform agreement preamble\n\n---\n*Version History*\n- v1.0.0 - Initial version"
             }
 };
 
@@ -810,11 +814,21 @@
 
             const clauses = [];
             
+            // Add General section first (always level 0)
+            const generalText = await fetchClause('general', '0');
+            clauses.push(`## About This Agreement\n\n${generalText}`);
+            
+            // Add other clauses based on user selection
             for (const clauseType of Object.keys(CLAUSE_MAPPING)) {
-                const level = document.getElementById(clauseType).value;
-                const clauseText = await fetchClause(clauseType, level);
-                const sectionTitle = clauseType.replace('-', ' ').replace(/\b\w/g, l => l.toUpperCase());
-                clauses.push(`## ${sectionTitle}\n\n${clauseText}`);
+                if (clauseType === 'general') continue; // Skip general as we already added it
+                
+                const selectElement = document.getElementById(clauseType);
+                if (selectElement) {
+                    const level = selectElement.value;
+                    const clauseText = await fetchClause(clauseType, level);
+                    const sectionTitle = clauseType.replace('-', ' ').replace(/\b\w/g, l => l.toUpperCase());
+                    clauses.push(`## ${sectionTitle}\n\n${clauseText}`);
+                }
             }
 
             currentDocument = `# Terms & Conditions\n\n${clauses.join('\n\n---\n\n')}`;
