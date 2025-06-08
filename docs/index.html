@@ -810,32 +810,37 @@
 
         async function generatePreview() {
             const previewElement = document.getElementById('preview-content');
-            previewElement.innerHTML = '<div class="loading">Generating document...</div>';
+            previewElement.innerHTML = '<div class="loading text-center text-base-content/60 py-8"><i class="fas fa-spinner fa-spin mr-2"></i>Generating document...</div>';
 
-            const clauses = [];
-            
-            // Add General section first (always level 0)
-            const generalText = await fetchClause('general', '0');
-            clauses.push(`## About This Agreement\n\n${generalText}`);
-            
-            // Add other clauses based on user selection
-            for (const clauseType of Object.keys(CLAUSE_MAPPING)) {
-                if (clauseType === 'general') continue; // Skip general as we already added it
+            try {
+                const clauses = [];
                 
-                const selectElement = document.getElementById(clauseType);
-                if (selectElement) {
-                    const level = selectElement.value;
-                    const clauseText = await fetchClause(clauseType, level);
-                    const sectionTitle = clauseType.replace('-', ' ').replace(/\b\w/g, l => l.toUpperCase());
-                    clauses.push(`## ${sectionTitle}\n\n${clauseText}`);
+                // Add General section first (always level 0)
+                const generalText = await fetchClause('general', '0');
+                clauses.push(`## About This Agreement\n\n${generalText}`);
+                
+                // Add other clauses based on user selection
+                for (const clauseType of Object.keys(CLAUSE_MAPPING)) {
+                    if (clauseType === 'general') continue; // Skip general as we already added it
+                    
+                    const selectElement = document.getElementById(clauseType);
+                    if (selectElement) {
+                        const level = selectElement.value;
+                        const clauseText = await fetchClause(clauseType, level);
+                        const sectionTitle = clauseType.replace('-', ' ').replace(/\b\w/g, l => l.toUpperCase());
+                        clauses.push(`## ${sectionTitle}\n\n${clauseText}`);
+                    }
                 }
-            }
 
-            currentDocument = `# Terms & Conditions\n\n${clauses.join('\n\n---\n\n')}`;
-            
-            // Render markdown to HTML for beautiful display
-            const renderedHTML = marked.parse(currentDocument);
-            previewElement.innerHTML = renderedHTML;
+                currentDocument = `# Terms & Conditions\n\n${clauses.join('\n\n---\n\n')}`;
+                
+                // Render markdown to HTML for beautiful display
+                const renderedHTML = marked.parse(currentDocument);
+                previewElement.innerHTML = renderedHTML;
+            } catch (error) {
+                console.error('Error generating preview:', error);
+                previewElement.innerHTML = '<div class="alert alert-error"><i class="fas fa-exclamation-triangle mr-2"></i>Error generating document. Please check the console for details.</div>';
+            }
         }
 
         async function generateFullDocument() {
