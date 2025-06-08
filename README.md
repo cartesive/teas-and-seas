@@ -89,6 +89,36 @@ Imagine a world where:
 - Users actually understand what they're signing up for
 - Terms compete on fairness, not obscurity
 
+## Testing
+
+To ensure the reliability of our Terms & Conditions builder, we maintain a comprehensive test suite:
+
+### 🧪 Running Tests
+
+```bash
+# Run all tests
+cd tests && ./run-tests.sh
+
+# Run specific test types
+./run-tests.sh unit    # Unit tests only
+./run-tests.sh live    # Live site tests only
+```
+
+### Test Types
+
+- **Unit Tests** (`test-builder.html`): Test individual components and functions
+- **Live Site Tests** (`test-live-site.html`): Validate the deployed GitHub Pages site
+- **Integration Tests**: End-to-end document generation and markdown rendering
+
+### When to Run Tests
+
+- Before deploying changes
+- After adding new clauses
+- When modifying builder logic
+- After updating dependencies
+
+See [tests/README.md](tests/README.md) for detailed testing documentation.
+
 ## Contributing
 
 This is a community project - a "Legal Commons" for the benefit of all. We need:

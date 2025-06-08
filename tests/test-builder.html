@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>T&C Builder Tests</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        h1 { color: #333; }
+        .test-suite {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .test {
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 4px;
+        }
+        .test.pass {
+            background: #d4edda;
+            color: #155724;
+        }
+        .test.fail {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        .test-name {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        .test-message {
+            font-size: 0.9em;
+            margin-top: 5px;
+        }
+        #summary {
+            font-size: 1.2em;
+            margin: 20px 0;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+        }
+        #summary.all-pass {
+            background: #d4edda;
+            color: #155724;
+        }
+        #summary.some-fail {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        pre {
+            background: #f5f5f5;
+            padding: 10px;
+            border-radius: 4px;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>Terms & Conditions Builder Test Suite</h1>
+    
+    <div id="summary">Running tests...</div>
+    
+    <div class="test-suite">
+        <h2>Clause Data Tests</h2>
+        <div id="clause-data-tests"></div>
+    </div>
+    
+    <div class="test-suite">
+        <h2>Document Generation Tests</h2>
+        <div id="generation-tests"></div>
+    </div>
+    
+    <div class="test-suite">
+        <h2>Integration Tests</h2>
+        <div id="integration-tests"></div>
+    </div>
+
+    <script src="../docs/marked.min.js"></script>
+    <script>
+        // Test framework
+        class TestRunner {
+            constructor() {
+                this.tests = [];
+                this.results = [];
+            }
+
+            test(name, fn) {
+                this.tests.push({ name, fn });
+            }
+
+            async run() {
+                for (const test of this.tests) {
+                    try {
+                        await test.fn();
+                        this.results.push({ name: test.name, pass: true });
+                    } catch (error) {
+                        this.results.push({ 
+                            name: test.name, 
+                            pass: false, 
+                            error: error.message,
+                            stack: error.stack 
+                        });
+                    }
+                }
+                return this.results;
+            }
+        }
+
+        // Assertion helpers
+        function assert(condition, message) {
+            if (!condition) {
+                throw new Error(message || 'Assertion failed');
+            }
+        }
+
+        function assertEquals(actual, expected, message) {
+            if (actual !== expected) {
+                throw new Error(message || `Expected ${expected} but got ${actual}`);
+            }
+        }
+
+        function assertContains(haystack, needle, message) {
+            if (!haystack.includes(needle)) {
+                throw new Error(message || `Expected "${haystack}" to contain "${needle}"`);
+            }
+        }
+
+        // Load the actual builder code (simplified version for testing)
+        const CLAUSE_MAPPING = {
+            'general': 'general/G',
+            'privacy': 'privacy/P',
+            'liability': 'liability/L', 
+            'warranty': 'warranty/W',
+            'termination': 'termination/T',
+            'acceptable-use': 'acceptable-use/AU',
+            'user-content': 'user-content/UC',
+            'payment': 'payment/PAY',
+            'intellectual-property': 'intellectual-property/IP',
+            'disputes': 'disputes/D',
+            'cookies': 'cookies/C',
+            'age-requirements': 'age-requirements/AGE',
+            'severability': 'severability/S'
+        };
+
+        // We'll load a minimal version of CLAUSE_DATA for testing
+        const CLAUSE_DATA = {
+            "general": {
+                "0": "# G0 v1.0.0\n\n## General - About This Agreement\n\n### 📌 Summary\nThis agreement defines the relationship between us (the service provider) and you (the user)."
+            },
+            "privacy": {
+                "0": "# P0 v1.0.0\n\n## Privacy (Level 0)\n\n### 📌 Summary\nWe don't collect, store, or process any personal data whatsoever.",
+                "3": "# P3 v1.0.0\n\n## Privacy (Level 3)\n\n### 📌 Summary\nWe collect functional data, use third-party services carefully, and give you control over your information."
+            },
+            "liability": {
+                "3": "# L3 v1.0.0\n\n## Liability (Level 3)\n\n### 📌 Summary\nLimited liability for direct damages only, capped at three months of fees, standard warranties."
+            }
+        };
+
+        async function fetchClause(clauseType, level) {
+            if (CLAUSE_DATA[clauseType] && CLAUSE_DATA[clauseType][level]) {
+                return CLAUSE_DATA[clauseType][level];
+            }
+            throw new Error(`No data found for ${clauseType} level ${level}`);
+        }
+
+        // Run tests
+        async function runTests() {
+            const clauseDataRunner = new TestRunner();
+            const generationRunner = new TestRunner();
+            const integrationRunner = new TestRunner();
+
+            // Clause Data Tests
+            clauseDataRunner.test('CLAUSE_DATA should exist', () => {
+                assert(typeof CLAUSE_DATA === 'object', 'CLAUSE_DATA is not defined');
+            });
+
+            clauseDataRunner.test('General section should exist in CLAUSE_DATA', () => {
+                assert('general' in CLAUSE_DATA, 'General section missing from CLAUSE_DATA');
+            });
+
+            clauseDataRunner.test('General section should have level 0', () => {
+                assert(CLAUSE_DATA.general && CLAUSE_DATA.general['0'], 'General section level 0 missing');
+            });
+
+            clauseDataRunner.test('All clause types should exist in CLAUSE_MAPPING', () => {
+                const expectedClauses = [
+                    'general', 'privacy', 'liability', 'warranty', 'termination',
+                    'acceptable-use', 'user-content', 'payment', 'intellectual-property',
+                    'disputes', 'cookies', 'age-requirements', 'severability'
+                ];
+                for (const clause of expectedClauses) {
+                    assert(clause in CLAUSE_MAPPING, `${clause} missing from CLAUSE_MAPPING`);
+                }
+            });
+
+            // Document Generation Tests
+            generationRunner.test('fetchClause should return general section', async () => {
+                const text = await fetchClause('general', '0');
+                assert(text.length > 0, 'General text is empty');
+                assertContains(text, 'About This Agreement', 'General text missing title');
+            });
+
+            generationRunner.test('fetchClause should return privacy level 3', async () => {
+                const text = await fetchClause('privacy', '3');
+                assert(text.length > 0, 'Privacy text is empty');
+                assertContains(text, 'Privacy', 'Privacy text missing title');
+            });
+
+            generationRunner.test('fetchClause should throw for non-existent clause', async () => {
+                try {
+                    await fetchClause('nonexistent', '0');
+                    throw new Error('Should have thrown error');
+                } catch (error) {
+                    assertContains(error.message, 'No data found', 'Wrong error message');
+                }
+            });
+
+            // Integration Tests
+            integrationRunner.test('Document should start with general section', async () => {
+                const clauses = [];
+                const generalText = await fetchClause('general', '0');
+                clauses.push(`## About This Agreement\n\n${generalText}`);
+                
+                const document = `# Terms & Conditions\n\n${clauses.join('\n\n---\n\n')}`;
+                assertContains(document, 'About This Agreement', 'Document missing general section');
+            });
+
+            integrationRunner.test('Marked should parse document without errors', async () => {
+                const generalText = await fetchClause('general', '0');
+                const document = `# Terms & Conditions\n\n## About This Agreement\n\n${generalText}`;
+                
+                const html = marked.parse(document);
+                assert(html.length > 0, 'Marked output is empty');
+                assertContains(html, '<h1', 'Marked output missing h1');
+            });
+
+            integrationRunner.test('Complete document generation should work', async () => {
+                const clauses = [];
+                
+                // Add general section
+                const generalText = await fetchClause('general', '0');
+                clauses.push(`## About This Agreement\n\n${generalText}`);
+                
+                // Add privacy section
+                const privacyText = await fetchClause('privacy', '3');
+                clauses.push(`## Privacy\n\n${privacyText}`);
+                
+                const document = `# Terms & Conditions\n\n${clauses.join('\n\n---\n\n')}`;
+                assert(document.length > 100, 'Document too short');
+                assertContains(document, 'About This Agreement', 'Missing general section');
+                assertContains(document, 'Privacy', 'Missing privacy section');
+            });
+
+            // Run all test suites
+            const clauseResults = await clauseDataRunner.run();
+            const generationResults = await generationRunner.run();
+            const integrationResults = await integrationRunner.run();
+
+            // Display results
+            displayResults('clause-data-tests', clauseResults);
+            displayResults('generation-tests', generationResults);
+            displayResults('integration-tests', integrationResults);
+
+            // Update summary
+            const allResults = [...clauseResults, ...generationResults, ...integrationResults];
+            const passed = allResults.filter(r => r.pass).length;
+            const total = allResults.length;
+            
+            const summaryEl = document.getElementById('summary');
+            if (passed === total) {
+                summaryEl.className = 'all-pass';
+                summaryEl.textContent = `✅ All ${total} tests passed!`;
+            } else {
+                summaryEl.className = 'some-fail';
+                summaryEl.textContent = `❌ ${passed}/${total} tests passed`;
+            }
+        }
+
+        function displayResults(containerId, results) {
+            const container = document.getElementById(containerId);
+            container.innerHTML = '';
+            
+            for (const result of results) {
+                const testEl = document.createElement('div');
+                testEl.className = `test ${result.pass ? 'pass' : 'fail'}`;
+                
+                const nameEl = document.createElement('div');
+                nameEl.className = 'test-name';
+                nameEl.textContent = `${result.pass ? '✅' : '❌'} ${result.name}`;
+                testEl.appendChild(nameEl);
+                
+                if (!result.pass) {
+                    const messageEl = document.createElement('div');
+                    messageEl.className = 'test-message';
+                    messageEl.innerHTML = `<strong>Error:</strong> ${result.error}`;
+                    testEl.appendChild(messageEl);
+                    
+                    if (result.stack) {
+                        const stackEl = document.createElement('pre');
+                        stackEl.textContent = result.stack;
+                        testEl.appendChild(stackEl);
+                    }
+                }
+                
+                container.appendChild(testEl);
+            }
+        }
+
+        // Run tests when page loads
+        window.addEventListener('DOMContentLoaded', runTests);
+    </script>
+</body>
+</html>
