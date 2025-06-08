@@ -24,7 +24,8 @@ def build_clause_data():
         'disputes': 'D',
         'cookies': 'C',
         'age-requirements': 'AGE',
-        'severability': 'S'
+        'severability': 'S',
+        'general': 'G'
     }
     
     core_dir = Path('core')
@@ -54,73 +55,16 @@ def build_clause_data():
     
     return data
 
-def update_html_with_data(data):
-    """Update index.html with embedded JSON data."""
+def write_data_json(data):
+    """Write clause data to docs/data.json file."""
     
-    html_path = Path('docs/index.html')
-    if not html_path.exists():
-        print(f"❌ {html_path} does not exist")
-        return
+    json_path = Path('docs/data.json')
     
-    # Read current HTML
-    with open(html_path, 'r', encoding='utf-8') as f:
-        html_content = f.read()
+    # Write the data as pretty-printed JSON
+    with open(json_path, 'w', encoding='utf-8') as f:
+        json.dump(data, f, indent=2, ensure_ascii=False)
     
-    # Create JavaScript data declaration
-    js_data = f"        const CLAUSE_DATA = {json.dumps(data, indent=12)};"
-    
-    # Find and replace the fetchClause function and related code
-    start_marker = "        let documentCache = {};"
-    end_marker = "        function updateBadge() {"
-    
-    start_idx = html_content.find(start_marker)
-    end_idx = html_content.find(end_marker)
-    
-    if start_idx == -1 or end_idx == -1:
-        print("❌ Could not find markers in HTML file")
-        return
-    
-    # Replace the entire fetchClause section with embedded data
-    new_js_section = f"""        let documentCache = {{}};
-        let currentDocument = '';
-
-{js_data}
-
-        async function fetchClause(clauseType, level) {{
-            const key = `${{clauseType}}-${{level}}`;
-            if (documentCache[key]) {{
-                return documentCache[key];
-            }}
-
-            try {{
-                if (CLAUSE_DATA[clauseType] && CLAUSE_DATA[clauseType][level]) {{
-                    const content = CLAUSE_DATA[clauseType][level];
-                    console.log(`✅ Loaded ${{clauseType}} level ${{level}} from embedded data`);
-                    documentCache[key] = content;
-                    return content;
-                }} else {{
-                    throw new Error(`No data found for ${{clauseType}} level ${{level}}`);
-                }}
-            }} catch (error) {{
-                console.error(`Error loading ${{clauseType}} level ${{level}}:`, error);
-                return `[Error: Could not load ${{clauseType.replace('-', ' ')}} clause level ${{level}}]`;
-            }}
-        }}
-
-        """
-    
-    # Reconstruct HTML
-    new_html = (
-        html_content[:start_idx] + 
-        new_js_section + 
-        html_content[end_idx:]
-    )
-    
-    # Write updated HTML
-    with open(html_path, 'w', encoding='utf-8') as f:
-        f.write(new_html)
-    
-    print(f"✅ Updated {html_path} with embedded clause data")
+    print(f"✅ Written clause data to {json_path}")
 
 def main():
     """Main build process."""
@@ -133,10 +77,10 @@ def main():
     total_clauses = sum(len(levels) for levels in data.values())
     print(f"\n📊 Loaded {total_clauses} total clauses across {len(data)} clause types")
     
-    # Update HTML file
-    update_html_with_data(data)
+    # Write data to JSON file
+    write_data_json(data)
     
-    print("\n🎉 Build complete! The T&C builder now has all clause data embedded.")
+    print("\n🎉 Build complete! Clause data written to docs/data.json")
 
 if __name__ == "__main__":
     main()
