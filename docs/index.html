@@ -815,8 +815,13 @@
             try {
                 const clauses = [];
                 
+                // Debug: Check if general section exists
+                console.log('Checking for general section in CLAUSE_DATA:', 'general' in CLAUSE_DATA);
+                console.log('General section data:', CLAUSE_DATA.general);
+                
                 // Add General section first (always level 0)
                 const generalText = await fetchClause('general', '0');
+                console.log('General text fetched:', generalText.substring(0, 100) + '...');
                 clauses.push(`## About This Agreement\n\n${generalText}`);
                 
                 // Add other clauses based on user selection
@@ -839,7 +844,8 @@
                 previewElement.innerHTML = renderedHTML;
             } catch (error) {
                 console.error('Error generating preview:', error);
-                previewElement.innerHTML = '<div class="alert alert-error"><i class="fas fa-exclamation-triangle mr-2"></i>Error generating document. Please check the console for details.</div>';
+                const errorDetails = `Error: ${error.message}\n\nStack: ${error.stack}\n\nGeneral section exists: ${'general' in CLAUSE_DATA}`;
+                previewElement.innerHTML = `<div class="alert alert-error"><i class="fas fa-exclamation-triangle mr-2"></i>Error generating document: ${error.message}<br><pre style="font-size: 0.8em; margin-top: 10px;">${errorDetails}</pre></div>`;
             }
         }
 
